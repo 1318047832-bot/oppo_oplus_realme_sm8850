@@ -56,5 +56,3 @@
 <div align="center">
   <img width="0" height="0" src="https://count.getloli.com/get/@:cctv18" />
 </div>
-
-run
