@@ -56,3 +56,28 @@
 <div align="center">
   <img width="0" height="0" src="https://count.getloli.com/get/@:cctv18" />
 </div>
+n:
+   push:
+     branches: [ main ]
+   workflow_dispatch:  # 允许手动点击运行
+ jobs:
+   build:
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout code
+         uses: actions/checkout@v4
+       - name: Install dependencies
+         run: |
+           sudo apt update
+           sudo apt install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev
+       - name: Generate default config
+         run: make defconfig
+       - name: Build kernel
+         run: make -j2  # GitHub 机器只有 2 核，用 -j2
+       - name: Upload kernel artifacts
+         uses: actions/upload-artifact@v4
+         with:
+           name: kernel-output
+           path: |
+             arch/x86/boot/bzImage
+             vmlinux
